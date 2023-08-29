@@ -1,7 +1,7 @@
 class SiteController {
     // [GET] /news
-    index(req, res) {
-        res.render('home');
+    index(      req, res) {
+            res.render('home');
     }
 
     search(req, res) {

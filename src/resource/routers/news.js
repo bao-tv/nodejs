@@ -5,7 +5,7 @@ const newsController =require('../app/controllers/NewsController');
 
 // console.log('NewsController: ',NewsController);
 
-router.use('/:slug', newsController.show);
+router.use( '/:slug', newsController.show);
 router.use('/', newsController.index);
 
 module.exports = router;
