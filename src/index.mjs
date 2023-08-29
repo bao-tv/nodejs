@@ -26,5 +26,5 @@ app.set('views', path.join(__dirname, 'resource/views'));
 app.use('/', express.static('./node_modules/bootstrap/dist/'));
 
 app.listen(port, () => {
-            console.log(`Example app listening on at http://localhost:${port}`);
+    console.log(`Example app listening on at http://localhost:${port}`);
 });
