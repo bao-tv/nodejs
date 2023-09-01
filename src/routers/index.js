@@ -1,4 +1,4 @@
-const newRouter =require('./news');
+const newRouter =require('./news.js');
 const siteRouter = require('./site')
 
 function route (app) {
