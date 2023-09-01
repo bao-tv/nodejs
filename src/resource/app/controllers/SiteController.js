@@ -2,7 +2,7 @@ const Course = require('../models/Course')
 
 class SiteController {
     // [GET] /news
-     index(      req, res) {
+     index(       req, res) {
         // try {
         //     await Course.find({}, function(err, courses) {
         //                     if(!err) res.json(courses);
