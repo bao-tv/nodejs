@@ -6,7 +6,6 @@ async function connect() {
         console.log("success");
     } catch (error) {
         console.log("error: ",error);
-        console.log("fail");
     }
 };
 

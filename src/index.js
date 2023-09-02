@@ -31,11 +31,11 @@ app.engine('.hbs', handlebars.engine({ extname: '.hbs' }));
 // app.engine('.hbs', engine({ extname: '.hbs' }));
 
 app.set('view engine', 'hbs');
-app.set('views', path.join(__dirname, 'resource/views'));
+app.set('views', path.join(__dirname, 'resource', 'views'));
 
 // bootstrap
 app.use('/', express.static('./node_modules/bootstrap/dist/'));
 
 app.listen(port, () => {
-    console.log(`Example app listening on at http://localhost:${port}`);
+    console.log(`App listening on at http://localhost:${port}`);
 });
