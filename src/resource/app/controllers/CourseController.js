@@ -15,8 +15,49 @@ class CourseController {
     }
     // [GET] /courses/create
     create(req, res) {
-        res.send('create course')
+        res.render('courses/create')
     }
+    // [POST] /courses/store
+    async store(req, res, next) {
+        const formData = req.body;
+        formData.image = `http://img.youtube.com/vi/${req.body.videoID}/sddefault.jpg`
+        try {
+            const data = await Course.create(formData);
+            res.redirect('/')
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    // [GET] /courses/:id/edit
+    async edit(req, res) {
+        try {
+            const courseEdit = await Course.findById(req.params.id).exec();
+            res.render('courses/edit', {courseEdit: mongooseToObject(courseEdit)});
+        } catch (error) {
+            console.log("error");
+        }
+    }
+    // [PUT] /courses/:id
+    async update(req, res) {
+        try {
+            const result = await Course.updateOne({ _id: req.params.id }, req.body);
+            res.redirect('/me/stored/courses');
+        } catch (error) {
+            console.log("error");
+        }
+    }
+
+    // [DELETE] /courses/:id
+    async delete(req, res) {
+        try {
+            const result = await Course.delete({ _id: req.params.id });
+            res.redirect('back');
+        } catch (error) {
+            console.log("error");
+        }
+    }
+    
 }
 
 module.exports = new CourseController;

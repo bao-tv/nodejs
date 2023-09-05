@@ -1,40 +1,52 @@
 const path = require('path');
 const express = require('express');
+const methodOverride = require('method-override')
 const morgan = require('morgan');
 const handlebars = require('express-handlebars');
 
-const app = express();
-const port = 3001;
-// Use static folder
-app.use(express.static(path.join(__dirname, 'public')));
-
-// route
 const route = require('./routers');
-
 const db = require('./config/BD');
 
 // connect to DB
 db.connect();
-// route init
-route(app);
 
+const app = express();
+const port = 3002;
 
-//forder public
+// Use static folder
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(
+    express.urlencoded({
+        extended: true
+    })
+);
+app.use(express.json());
+
+
+//setup method-override
+app.use(methodOverride('_method'));
+
 //HTTP logger
 // app.use(morgan('combined'));
 
+//forder public
+app.use(express.static(path.join(__dirname, 'public')));
+
 //Template engine
 //View engine setup
-app.set("view engine", 'handlebars');
-app.engine('.hbs', handlebars.engine({ extname: '.hbs' }));
-// app.engine('.hbs', engine({ extname: '.hbs' }));
+app.engine('.hbs', handlebars.engine({ 
+    extname: '.hbs' ,
+    helpers: {
+        sum : (a, b) => a + b,
+    }
+}));
 
 app.set('view engine', 'hbs');
 app.set('views', path.join(__dirname, 'resource', 'views'));
 
-// bootstrap
-app.use('/', express.static('./node_modules/bootstrap/dist/'));
+// route init
+route(app);
 
 app.listen(port, () => {
     console.log(`App listening on at http://localhost:${port}`);
