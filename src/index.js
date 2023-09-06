@@ -11,10 +11,7 @@ const db = require('./config/BD');
 db.connect();
 
 const app = express();
-const port = 3002;
-
-// Use static folder
-app.use(express.static(path.join(__dirname, 'public')));
+const port = 3003;
 
 app.use(
     express.urlencoded({
@@ -30,8 +27,6 @@ app.use(methodOverride('_method'));
 //HTTP logger
 // app.use(morgan('combined'));
 
-//forder public
-app.use(express.static(path.join(__dirname, 'public')));
 
 //Template engine
 //View engine setup
@@ -42,6 +37,11 @@ app.engine('.hbs', handlebars.engine({
     }
 }));
 
+//forder public
+app.use('/public',express.static(path.join(__dirname, '/public')));
+//bootstrap
+app.use('/scripts', express.static(path.join(__dirname, '../node_modules/bootstrap/dist')));
+app.use('/scripts-icon', express.static(path.join(__dirname, '../node_modules/bootstrap-icons/font')));
 app.set('view engine', 'hbs');
 app.set('views', path.join(__dirname, 'resource', 'views'));
 

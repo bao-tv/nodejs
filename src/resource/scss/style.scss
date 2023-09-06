@@ -1,0 +1,13 @@
+@import './variable';
+
+h1{
+    color: red;
+}
+
+.avatar{
+    list-style: none;
+    .img-avatar{
+        height: 40px;
+        width: 40px;
+    }
+}

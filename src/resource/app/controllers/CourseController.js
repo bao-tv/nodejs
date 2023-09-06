@@ -57,6 +57,26 @@ class CourseController {
             console.log("error");
         }
     }
+
+      // [DESTROY] /courses/:id/destroy
+      async destroy(req, res) {
+        try {
+            const result = await Course.deleteOne({ _id: req.params.id });
+            res.redirect('back');
+        } catch (error) {
+            console.log("error");
+        }
+    }
+
+     // [PATCH] /courses/:id/restore
+     async restore(req, res) {
+        try {
+            await Course.restore({ _id: req.params.id });
+            res.redirect('back');
+        } catch (error) {
+            console.log("error");
+        }
+    }
     
 }
 

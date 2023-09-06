@@ -1,0 +1,100 @@
+<div class="mt-4">
+  <div class="d-flex justify-content-between align-items-center">
+    <h3 class="mb-0">Khóa học đã xóa</h3>
+    <a href="/me/stored/courses" 
+      class="text-decoration-none d-flex justify-content-between align-items-center">
+      <i class="bi bi-list fs-2 text-secondary"></i> 
+      Danh sách khóa học
+    </a>
+  </div>
+    <table class="table mt-4">
+        <thead>
+            <tr>
+            <th scope="col">#</th>
+            <th scope="col">Tên khóa học</th>
+            <th scope="col">slug</th>
+            <th scope="col">Thời gian tạo</th>
+            <th></th>
+            </tr>
+        </thead>
+        {{#each courseDelete}}
+        <tbody>
+            <tr>
+            <th scope="row">{{sum @index 1}}</th>
+            <td>{{this.name}}</td>
+            <td>{{this.slug}}</td>
+            <td>{{this.createdAt}}</td>
+            <td>
+                <button 
+                  type="button"
+                  class="btn btn-primary" 
+                  onclick="restoreCourse('{{this._id}}')">Khôi phục</button>
+                <a href=""
+                  data-id-destroy="{{this._id}}"
+                  data-bs-toggle="modal" 
+                  data-bs-target="#destroy-course-Modal" 
+                  {{!-- onclick="destroyCourse('{{this._id}}')" --}}
+                  class="btn btn-danger">Xóa vĩnh viễn</a>
+            </td>
+            </tr>
+
+        {{else}}
+        <tr>
+          <td class="text-center" colspan="5">Thùng rác trống. <a href="/me/stored/courses">Danh sách khoá học</a></td>
+        </tr>
+        {{/each}}
+        </tbody>
+    </table>
+</div>
+
+{{!-- confirm destroy--}}
+<!-- Modal -->
+<div class="modal fade" id="destroy-course-Modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Xóa khóa học vĩnh viễn?</h1>
+        {{!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">x</button> --}}
+      </div>
+      <div class="modal-body">
+        <p id="addxoas">Bạn có muốn xóa khóa học này?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+        <button 
+          id="btn-destroy-course" 
+          type="button" 
+          class="btn btn-danger"
+          onclick="destroyCourse()"
+           >Xóa bỏ vĩnh viễn</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+{{!-- form retore --}}
+<form method="POST" id="restore-course-form"></form>
+<form method="POST" id="destroy-course-form"></form>
+
+<script>
+    let restoreForm = document.getElementById('restore-course-form');
+    function restoreCourse(id) {
+      restoreForm.action = '/courses/' + id + '/restore?_method=PATCH';
+      restoreForm.submit();
+    }
+
+    const destroyCourseModal = document.getElementById('destroy-course-Modal');
+    let idDestroyCourse;
+    if (destroyCourseModal) {
+    destroyCourseModal.addEventListener('show.bs.modal', event => {
+        const button = event.relatedTarget;
+        idDestroyCourse = button.getAttribute('data-id-destroy');
+    }); // Add a closing parenthesis here
+}
+    const btnDestroyCourse = document.getElementById('btn-destroy-course')
+    const destroyForm = document.getElementById('destroy-course-form')
+    const destroyCourse = () => {
+      destroyForm.action = '/courses/' + idDestroyCourse + '/destroy?_method=DELETE';
+      destroyForm.submit();
+    }
+</script>
