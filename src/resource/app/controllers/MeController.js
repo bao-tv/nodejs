@@ -6,7 +6,11 @@ class CourseController {
     async storeCourese(req, res) {       
         try {
             const course = await Course.find().exec();
-            res.render('me/store-courese', {course : mutipleMogooseToObject(course)});
+            console.log("Course: ",Course);
+            const courseDelete = await Course.findDeleted().exec();
+            const countDeleted = courseDelete.filter(doc => doc.deleted === true).length;
+            console.log(countDeleted);
+            res.render('me/store-courese', {course : mutipleMogooseToObject(course), countDeleted});
         } catch (error) {
             console.log("error");
         }
